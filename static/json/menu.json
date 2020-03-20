@@ -1,0 +1,61 @@
+[
+	{
+		"id": "1",
+		"name": "贴吧",
+		"icon": null,
+		"url": "",
+		"parentId": "",
+		"childs": [
+			{
+				"id": "11",
+				"name": "所有文章",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/post/index.html",
+				"parentId": "4",
+				"childs": []
+			},
+			{
+				"id": "12",
+				"name": "我的文章",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/myPost/index.html",
+				"parentId": "4",
+				"childs": []
+			},
+			{
+				"id": "14",
+				"name": "我的评论",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/myComment/index.html",
+				"parentId": "4",
+				"childs": []
+			},
+			{
+				"id": "15",
+				"name": "语音设置",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/audioSet/index.html",
+				"parentId": "4",
+				"childs": []
+			},
+			{
+				"id": "16",
+				"name": "个人设置",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/perSet/index.html",
+				"parentId": "4",
+				"childs": []
+			},
+			{
+				"id": "17",
+				"name": "上传头像",
+				"icon": "/xingxing.png",
+				"url": "chinasofti/uploadHead/index.html",
+				"parentId": "4",
+				"childs": []
+			}
+		
+		]
+	}
+]
+

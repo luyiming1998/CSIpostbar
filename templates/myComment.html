@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html style="height: auto;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我的评论</title>
+
+    <link rel="stylesheet" href="/static/css/default/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/static/comp/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/comp/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/comp/adminlte/css/adminlte.css">
+    <link rel="stylesheet" href="/static/css/default/mask.css"/>
+</head>
+
+<body style="height: auto;">
+
+
+<!--  <div class="container-fluid" id="ORG_LIST_DIV_ID">-->
+<div class="container-fluid" id="COM_LIST_DIV_ID">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="width:100%">
+                    <h3 class="card-title col-md-3">当前：<span id="LABLE_FATHER_ORG_NAME">我的评论</span></h3>
+                    <div class="col-md-2 col-md-offset-7" id="comAddAndDeleteDiv">
+                        <button class="btn  btn-danger btn-sm" type="button" onclick="DELETE_COM()">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div id="example3_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <div class="card-header" style="background-color:#17a2b8"><h3 class="card-title">我的评论</h3></div>
+                        {% for comment in post.object_list %}
+
+
+                        <div class="row">
+                            <div class="form-inline col-sm-12"><span>这是{{comment.cm_article__postTitle}}的评论</span></div>
+                            <div class="col-sm-12">
+                                <audio src="{{ comment.cmAudio }}" controls="controls"
+                                       style="height:20px"></audio>
+                            </div>
+                            <div class="col-sm-12">
+                                <div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>评论时间：{{ comment.cmTime }}&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+                                            <td>评论文章：<a href=""
+                                                        onclick="post_detailed('{{comment.cm_article__id}}'); return false;">{{ comment.cm_article__postTitle }}</a>
+                                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                            </td>
+                                            <td><a href=""
+                                                   onclick="EDIT_COM({{ comment.id }}); return false;">评论编辑</a>
+                                                ：&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            </td>
+                                            <td>删除评论：<input name="DELETE_CHECK_NAME" type="checkbox"
+                                                            value="{{ comment.id }}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <hr>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+        </div>
+
+    </div>
+                            <div class="row">
+                            <div class="col-sm-12 col-md-9 col-md-offset-3">
+                                <div class="dataTables_paginate paging_simple_numbers">
+                                    <ul class="pagination" id="PAGE_ID">
+                                        <li style="margin-left: 30px">
+                                            <button class="btn btn-primary" type="button"
+                                                    onclick="JumpPage(1)">首页
+                                            </button>
+                                        </li>
+
+                                        <li style="margin-left: 30px">
+                                            {% if post.has_previous %}
+                                            <button class="btn btn-primary" type="button"
+                                                    onclick="JumpPage({{ post.previous_page_number }})">前一页
+                                            </button>
+                                                {% else %}
+                                           <button class="btn btn-primary" type="button"
+                                                    disabled="disabled">前一页
+                                            </button>
+                                            {% endif %}
+                                        </li>
+                                        <li style="margin-left: 30px">
+                                            {% if post.has_next %}
+                                            <button class="btn btn-primary" type="button"
+                                                    onclick="JumpPage({{ post.next_page_number }})">后一页
+                                            </button>
+                                                {% else %}
+                                           <button class="btn btn-primary" type="button"
+                                                    disabled="disabled">后一页
+                                            </button>
+                                            {% endif %}
+                                        </li>
+                                        <li style="margin-left: 30px">
+                                            <button class="btn btn-primary" type="button"
+                                                    onclick="JumpPage({{ post.paginator.num_pages }})">末页
+                                            </button>
+                                        </li>
+                                        <li style="margin-left: 30px"><input id="JUMP_INPUT_ID" type="text"
+                                                                             style="display:inline;width:80px" size="6">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                    onclick="GOTO_POST_PAGE({{ post.paginator.num_pages }});return false;">跳转
+                                            </button>
+                                        </li>
+                                        <li style="margin-left: 30px">
+                                            <div class="dataTables_info" style="margin-top: 6px;margin-left: 100px">
+                                                <span>{{post.number}}/{{post.paginator.num_pages}} 页</span> <span>共{{ post.paginator.count }}条</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+</div>
+
+
+<!--<div id="ORG_ADD_DIV_ID" class="card card-info" style="display:none">  -->
+<div id="COM_ADD_DIV_ID" class="card card-info" style="display:none">
+    <div class="card-header">
+        <h3 class="card-title">评论编辑</h3>
+    </div>
+    <div class="form-horizontal">
+
+        <div class="card-body">
+
+
+            <div class="form-group">
+                <label for="JI_JOB_NAME" class="col-sm-2 control-label">评论：</label>
+                <div class="col-sm-10">
+                    <textarea name="POST_ADD_DES" id="COM_ADD_DES" class="form-control"
+                              style="height:100px;"> </textarea>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div id="editButtion" class="card-footer col-md-3 col-md-offset-4" style="width:100%" align="center">
+
+            </div>
+            <div class="card-footer col-md-3 col-md-offset-4" id="tishi"
+                 style="text-align: center;color: red;font-size: 15px">
+
+            </div>
+            <!-- /.card-footer -->
+        </div>
+
+    </div>
+</div>
+
+
+<script src="/static/comp/jquery/dist/jquery.js"></script>
+<script src="/static/comp/jQuery-Storage-API/jquery.storageapi.js"></script>
+<script src="/static/comp/jquery.form/jquery.form.min.js"></script>
+<script src="/static/comp/jquery/plugins/scrollbar/perfect-scrollbar.jquery.min.js"></script>
+
+<script src="/static/kindeditor/kindeditor-all.js" type="text/javascript"></script>
+<script src="/static/kindeditor/kindeditor-all-min.js" type="text/javascript"></script>
+<script src="/static/kindeditor/lang/zh-CN.js" type="text/javascript"></script>
+<script src="/static/js/common/mask.js"></script>
+<script src="/static/chinasofti/myComment/js/myComment.js"></script>
+<script type="text/javascript" src="/static/js/alert.js"></script>
+
+<!--
+<script src="/stmadc/stma/dc/include/js/jcommon.js"></script>
+
+<script language="JavaScript" src="/stmadc/jquery/jquery-ui-1.8.20.min.js"></script>
+<script src="/stmadc/static/comp/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/stmadc/static/comp/adminlte/js/adminlte.min.js"></script>
+<script language="JavaScript" src="/stmadc/stma/dc/include/js/jcommon.js"></script>
+-->
+
+
+</body>
+</html>

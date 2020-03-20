@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html style="height: auto;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>所有文章评论</title>
+
+    <link rel="stylesheet" href="/static/css/default/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/static/comp/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/comp/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/comp/adminlte/css/adminlte.css">
+    <link rel="stylesheet" href="/static/css/default/mask.css"/>
+</head>
+
+<body style="height: auto;">
+
+
+<!--  <div class="container-fluid" id="ORG_LIST_DIV_ID">-->
+<div class="container-fluid" id="COM_LIST_DIV_ID">
+    <div class="row">
+        <div class="col-md-12" style="">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">文章</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="form-inline col-md-11" style="width:100%">
+                                <div class="form-group " style="width:100%">
+                                    <div id="postPhoto"><img src="{{ article.user__regPhoto }}"
+                                                             style="whith:80px;height:80px"></div>
+                                    &nbsp;&nbsp;
+                                    <div id="postInfo">
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td>主题：{{article.postTitle}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>发帖人：{{article.user__userName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>发帖人注册时间:{{ article.user__regTime }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>发帖时间：{{ article.postTime }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="postText"><span>{{article.postText|safe}}</span></div>
+                <div id="postAtt">
+                    <audio src="{{article.postAudio}}" controls="controls"
+                           style="height:20px"></audio>&nbsp;|&nbsp;<a id="praisecNum" href="javascript:void(0);"
+                                                                       onclick="praiseclick('46dc37890bbc49629384024d2f17beda','0','/postbar/audio/c9c8ee13e83149379d56d34ea7913d69.mp3')">赞：</a>
+                    0
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="width:100%">
+                    {% if page == "post" %}
+                    <h3 class="card-title col-md-3">当前：<span id="LABLE_FATHER_ORG_NAME">所有文章->评论</span></h3>
+                    {% elif page == "myPost" %}
+                    <h3 class="card-title col-md-3">当前：<span id="LABLE_FATHER_ORG_NAME">我的文章->评论</span></h3>
+                    {% endif %}
+                    <div class="col-md-2 col-md-offset-7" id="comAddAndDeleteDiv">
+                        <button class="btn  btn-success btn-sm" type="button" onclick="ADD_COM()">评论</button>
+                        {% if request.session.role == 1 and page == "post"%}
+                            <button class="btn  btn-danger btn-sm" type="button" onclick="DELETE_COM()">删除</button>
+                        {% endif %}
+                        {% if page == "myPost"%}
+                        <button class="btn  btn-danger btn-sm" type="button" onclick="DELETE_COM()">删除</button>
+                        {% endif %}
+                        <button class="btn btn-default btn-sm" type="button" onclick="returnPostList()">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% comment %}<div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <div class="card-header" style="background-color:#17a2b8"><h3 class="card-title">热门评论</h3></div>
+                        <div class="row">
+                            <div class="form-inline col-sm-12">
+                                <div><img src="/static/headPhoto/default/default.jpg" style="whith:80px;height:80px">
+                                </div>
+                                <div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>评论人：wangxiaohua</td>
+                                        </tr>
+                                        <tr>
+                                            <td>评论人注册时间:2019-03-12 12:47:11</td>
+                                        </tr>
+                                        <tr>
+                                            <td>评论时间：2019-03-18 21:03:05</td>
+                                        </tr>
+                                        <tr>
+                                            <td>删除选中：<input name="DELETE_CHECK_NAME" type="checkbox"
+                                                            value="c9c8ee13e83149379d56d34ea7913d69"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-12"><span>这是测试文章3评论</span></div>
+                            <div class="col-sm-12">
+                                <audio src="/postbar/audio/c9c8ee13e83149379d56d34ea7913d69.mp3" controls="controls"
+                                       style="height:20px"></audio>&nbsp;|&nbsp;<a id="praisecNum"
+                                                                                   href="javascript:void(0);"
+                                                                                   onclick="hotsPraiseClick('46dc37890bbc49629384024d2f17beda','c9c8ee13e83149379d56d34ea7913d69')">赞：</a>
+                                1
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+        </div>
+
+    </div>
+{% endcomment %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div id="example3_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <div class="card-header" style="background-color:#17a2b8"><h3 class="card-title">全部评论</h3></div>
+                        {% for comment in comments %}
+
+
+
+                        <div class="row">
+                            <div class="form-inline col-sm-12">
+                                <div><img src="{{ comment.cm_user__regPhoto }}" style="whith:80px;height:80px">
+                                </div>
+                                <div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>评论人：{{ comment.cm_user__userName }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>评论人注册时间:{{comment.cm_user__regTime}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>评论时间：{{ comment.cmTime}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>删除选中：<input name="DELETE_CHECK_NAME" type="checkbox"
+                                                            value="{{comment.id}}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-12"><span>{{ comment.cmText|safe }}</span></div>
+                            <div class="col-sm-12">
+                                <audio src="{{ comment.cmAudio }}" controls="controls"
+                                       style="height:20px"></audio>{% comment %}&nbsp;|&nbsp;<a id="praisecNum"
+                                                                                   href="javascript:void(0);"
+                                                                                   onclick="hotsPraiseClick('46dc37890bbc49629384024d2f17beda','c9c8ee13e83149379d56d34ea7913d69')">赞：</a>{% endcomment %}
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--<div id="ORG_ADD_DIV_ID" class="card card-info" style="display:none">  -->
+<div id="COM_ADD_DIV_ID" class="card card-info" style="display:none">
+    <div class="card-header">
+        <h3 class="card-title">评论编辑</h3>
+    </div>
+    <div class="form-horizontal">
+
+        <div class="card-body">
+
+
+            <div class="form-group">
+                <label for="JI_JOB_NAME" class="col-sm-2 control-label">评论：</label>
+                <div class="col-sm-10">
+                    <textarea name="POST_ADD_DES" id="COM_ADD_DES" class="form-control"
+                              style="height:100px;"> </textarea>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer col-md-3 col-md-offset-4" style="width:100%" align="center">
+                <button type="button" class="btn btn-info" onclick="addComCheck({{ article.id }})">提交</button>
+                <button type="button" class="btn btn-default" onclick="returnComList()">返回</button>
+            </div>
+            <div class="card-footer col-md-3 col-md-offset-4" id="tishi"
+                 style="text-align: center;color: red;font-size: 15px">
+
+            </div>
+            <!-- /.card-footer -->
+        </div>
+
+    </div>
+</div>
+
+
+<script src="/static/comp/jquery/dist/jquery.js"></script>
+<script src="/static/comp/jQuery-Storage-API/jquery.storageapi.js"></script>
+<script src="/static/comp/jquery.form/jquery.form.min.js"></script>
+<script src="/static/comp/jquery/plugins/scrollbar/perfect-scrollbar.jquery.min.js"></script>
+
+<script src="/static/kindeditor/kindeditor-all.js" type="text/javascript"></script>
+<script src="/static/kindeditor/kindeditor-all-min.js" type="text/javascript"></script>
+<script src="/static/kindeditor/lang/zh-CN.js" type="text/javascript"></script>
+<script src="/static/js/common/mask.js"></script>
+<script src="/static/chinasofti/comment/js/comment.js"></script>
+<script type="text/javascript" src="/static/js/alert.js"></script>
+
+<!--
+<script src="/stmadc/stma/dc/include/js/jcommon.js"></script>
+
+<script language="JavaScript" src="/stmadc/jquery/jquery-ui-1.8.20.min.js"></script>
+<script src="/stmadc/static/comp/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/stmadc/static/comp/adminlte/js/adminlte.min.js"></script>
+<script language="JavaScript" src="/stmadc/stma/dc/include/js/jcommon.js"></script>
+-->
+
+
+</body>
+</html>
